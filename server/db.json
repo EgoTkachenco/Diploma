@@ -1,0 +1,22 @@
+{
+    "USERS": [
+        {
+            "login": "egor@mail.com",
+            "password": "123123",
+            "rating": 0,
+            "id": 1620748060324
+        },
+        {
+            "login": "test@mail.com",
+            "password": "123123",
+            "rating": 0,
+            "id": 1621120853274
+        },
+        {
+            "login": "123123",
+            "password": "123123",
+            "rating": 0,
+            "id": 1621124919332
+        }
+    ]
+}
