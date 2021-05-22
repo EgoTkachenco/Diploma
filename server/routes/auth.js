@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const USERS = require('../controllers/user');
-const { createUser, loginUser} = require('../controllers/user_2');
+const { createUser, loginUser} = require('../controllers/user');
 
 router.post('/signUp', async (req, res) => {
     const form = req.body

@@ -47,3 +47,19 @@ function calcRating_2(result) {
 }
 console.log('result1: ', calcRating_2(r1))
 console.log('result2: ', calcRating_2(r2))
+
+
+// FIREBASE
+
+// const { testsDb } = require('./config/firebase');
+
+// let errors = { page: 'Каталог' }
+// let add = async test => await testsDb.push(test)
+
+// const TESTFUNC = async () => {
+//     let newKey = await add(errors)
+//     let key = newKey.key
+//     console.log(key)
+// }
+
+// TESTFUNC();

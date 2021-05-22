@@ -1,5 +1,6 @@
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
+const { testsDb } = require('../config/firebase');
 
 class Test extends Model { }
 
@@ -11,10 +12,12 @@ Test.init({
 }, { sequelize, modelName: 'test' });
 
 module.exports = {
-    createTest: async ({ author_id, title, description, errorsConfig }) => {
+    createTest: async ({ author_id, title, description, errors }) => {
         await sequelize.sync();
-        // TODO: save errors config of firebase and save url to document
-        let config_url = 'http://url.com'
+        // Save test to firebase
+        let savedConfig = await testsDb.push(errors)
+        let config_url = savedConfig.key
+        // Save test key to database
         const newTest = await Test.create({
             author_id,
             title,
@@ -22,6 +25,7 @@ module.exports = {
             config_url
         })
         await newTest.save();
+
         return await newTest.toJSON();
     },
     getTests: async () => {

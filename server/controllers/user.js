@@ -1,42 +1,38 @@
-const db = require('../config/db');
-class Users {
-    constructor() {
-        this.users = db.get('USERS');
-    }
+const { Model, DataTypes } = require('sequelize');
+const sequelize = require('../config/database');
+class User extends Model { }
 
-    getUser(id) {
-        let user = this.users.find(u => u.id === Number(id));
-        return user ? user : null;
-    }
-    getUsers() {
-        return this.users;
-    }
-    signIn(login, password) {
-        let user = this.users.find(u => u.login === login && u.password === password);
-        if (user) {
-            return { status: true, user: user }
-        } else {
-            return { status: false, message: "Користувача не знайдено" }
-        }
-    }
-    signUp(login, password, type, name) {
-        let user = this.users.find(u => u.login === login);
+User.init({
+    name: DataTypes.STRING,
+    email: DataTypes.STRING,
+    password: DataTypes.STRING,
+    type: DataTypes.STRING
+}, { sequelize, modelName: 'user' });
 
-        if (user) {
-            return { status: false, message: "Користувач вже існує" }
-        } else {
-            let newUser = { 
-                login, password, type, name, rating: 0,
-                id: new Date().getTime(), 
-            }
-            this.users.push(newUser);
-            this.save();
-            return { status: true, user: newUser };
+module.exports = {
+    createUser: async ({ name, email, password, type }) => {
+        await sequelize.sync();
+        let result = await User.findAndCountAll({ where: { email: email } })
+        if (!result.count) {
+            const newUser = await User.create({
+                name,
+                email,
+                password,
+                type
+            })
+            await newUser.save();
+            return newUser.toJSON();
         }
-    }
-    save() {
-        db.set('USERS', this.users);
-    }
+        return null
+    },
+    loginUser: async ({email, password}) => {
+        // await sequelize.sync()
+        await sequelize.sync();
+        let result = await User.findOne({ where: { email: email, password: password } })
+        if (!result) {
+            return null
+        }
+        return result.toJSON()
+    },
 }
 
-module.exports = USERS = new Users();
