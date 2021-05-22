@@ -31,6 +31,7 @@ module.exports = {
     getTests: async () => {
         // await sequelize.sync()
         const tests = await Test.findAll()
+
         return tests
     },
     updateTest: async ({ id, title, description }) => {
@@ -42,5 +43,8 @@ module.exports = {
     removeTest: async ({ id }) => {
         let removedTest = await Test.destroy({ where: { id: id } })
         return removedTest
+    },
+    finishTest: async (results) => {
+        
     }
 }

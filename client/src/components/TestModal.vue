@@ -75,7 +75,13 @@ export default {
     },
     methods: {
         sendForm() {
-            this.$store.dispatch('saveTest', this.form);
+            this.$store.dispatch('saveTest', this.form)
+                .then(() => {
+                    this.form = {
+                        title: "",
+                        description: "",
+                    } 
+                });
         },
         close() {
             this.$store.commit('TOGGLE_TEST_MODAL')

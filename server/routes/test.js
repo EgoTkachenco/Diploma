@@ -39,5 +39,15 @@ router.delete('/', async (req, res) => {
         res.status(500).send({ status: false, message: 'id required' });
     }
 })
+router.post('/finish', async (req, res) => {
+    let form = req.body;
+    if (form) {
+        console.log(form)
+        res.status(200).send({ status: true, test: {} });
+    } else {
+        res.status(500).send({ status: false, message: 'author_id, title, errors and description required' });
+    }
+
+})
 
 module.exports = router;

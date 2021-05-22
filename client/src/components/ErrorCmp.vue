@@ -23,6 +23,11 @@ export default {
                 this.$store.commit('FIND_ERROR', this.id);
             }
         }
+    },
+	computed: {
+        isTest() {
+            return this.$store.state.activeTest;
+        }
     }
 };
 </script>
