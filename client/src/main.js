@@ -14,7 +14,7 @@ router.beforeEach((to, from, next) => {
       :
       next();
   } else {
-    let user = localStorage.getItem('user')
+    let user = localStorage.getItem('diploma_user')
     if (user) {
       store.commit('LOG_USER', JSON.parse(user));
       next()

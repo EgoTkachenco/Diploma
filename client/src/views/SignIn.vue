@@ -6,15 +6,15 @@
 				<form @submit.prevent="signIn">
 					<div class="mb-3">
 						<label
-							for="login"
+							for="email"
 							class="form-label"
 						>Логін</label>
 						<input
-							v-model="form.login"
+							v-model="form.email"
 							required
-							type="login"
+							type="email"
 							class="form-control"
-							id="login"
+							id="email"
 						>
 					</div>
 					<div class="mb-3">
@@ -35,7 +35,7 @@
 						class="d-block text-center mt-2 mb-5"
 					>Реєстрація</router-link>
 					<div
-						class="alert alert-danger"
+						class="alert alert-danger text-center"
 						v-if="error"
 					>{{error}}</div>
 					<div class="d-flex">
@@ -55,7 +55,7 @@ export default {
 	name: "SignIn",
 	data: () => ({
 		form: {
-			login: "",
+			email: "",
 			password: "",
 		},
 		error: null,
@@ -63,16 +63,11 @@ export default {
 	methods: {
 		signIn() {
 			this.$store.dispatch('signIn', this.form)
-				.then(data => {
-					debugger
-					if (data.status) {
-						this.$router.push({name: 'Dashboard'})
-					} else {
-						this.error = data.message;
-					}
+				.then(() => {
+					this.$router.push({name: 'Dashboard'})
 				})
 				.catch(() => {
-					this.error = 'Помилка сервера';
+					this.error = "Невірні email та пароль";
 				});
 		},
 	},

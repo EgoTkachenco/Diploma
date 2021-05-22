@@ -6,7 +6,7 @@
 				<form @submit.prevent="signUp">
 					<div class="mb-3">
 						<label
-							for="login"
+							for="name"
 							class="form-label"
 						>Ім'я</label>
 						<input
@@ -19,10 +19,11 @@
 					</div>
 					<div class="mb-3">
 						<label
-							for="login"
+							for="type"
 							class="form-label"
 						>Тип користувача</label>
 						<select
+							id="type"
 							class="form-select"
 							v-model="form.type"
 							aria-label="Default select example"
@@ -33,15 +34,15 @@
 					</div>
 					<div class="mb-3">
 						<label
-							for="login"
+							for="email"
 							class="form-label"
 						>Логін</label>
 						<input
-							v-model="form.login"
+							v-model="form.email"
 							required
-							type="login"
+							type="email"
 							class="form-control"
-							id="login"
+							id="email"
 						>
 					</div>
 					<div class="mb-3">
@@ -78,7 +79,7 @@ export default {
 	name: "SignUp",
 	data: () => ({
 		form: {
-			login: "",
+			email: "",
 			password: "",
 			type: "student",
 			name: "",
@@ -88,19 +89,15 @@ export default {
 	methods: {
 		signUp() {
 			this.$store.dispatch('signUp', this.form)
-				.then(data => {
-					if (data.status) {
-						this.$router.push({name: 'Dashboard'})
-					} else {
-						this.error = data.message;
-					}
+				.then(() => {
+					this.$router.push({name: 'Dashboard'})
 				})
 				.catch(() => {
 					this.error = 'Помилка сервера';
 				});
 		},
 		rememberUser(id) {
-			localStorage.setItem("userID", JSON.stringify(id));
+			localStorage.setItem("diploma_user", JSON.stringify(id));
 		},
 	},
 };

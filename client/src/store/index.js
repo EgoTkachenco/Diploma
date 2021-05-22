@@ -77,16 +77,18 @@ export default new Vuex.Store({
 
     config: CONFIGS[0],
 
-    currentUser: null
+    currentUser: null,
+
+    isTestModalOpen: false
   },
   mutations: {
     'LOG_USER'(state, payload) {
       state.currentUser = payload
-      localStorage.setItem("user", JSON.stringify(payload));
+      localStorage.setItem("diploma_user", JSON.stringify(payload));
     },
     'LOG_OUT'(state) {
       state.currentUser = null;
-      localStorage.removeItem("user");
+      localStorage.removeItem("diploma_user");
     },
     'SET_CONFIG'(state, payload) {
       state.config = payload
@@ -94,6 +96,9 @@ export default new Vuex.Store({
     'FIND_ERROR'(state, id) {
       state.config.errors[id].selected = false;
       state.config.errors[id].isFinded = true;
+    },
+    'TOGGLE_TEST_MODAL'(state) {
+      state.isTestModalOpen = !state.isTestModalOpen
     }
   },
   actions: {
@@ -123,7 +128,26 @@ export default new Vuex.Store({
     },
     changePage({ state, commit }, index) {
       commit('SET_CONFIG', state.CONFIGS[index])
+    },
+
+    saveTest({state, commit}, {title, description}) {
+      return axios.post('/test/', {
+        title,
+        description,
+        author_id: state.currentUser.id,
+        errors: state.config
+      })
+        .then((res) => {
+          commit('TOGGLE_TEST_MODAL')
+          return Promise.resolve(res.data)
+        })
+        .catch(() => {
+
+        })
     }
+  },
+  getters: {
+    isTeacher: state => state.currentUser.type === 'teacher',
   },
   modules: {
   }

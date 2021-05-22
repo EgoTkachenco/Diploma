@@ -3,6 +3,7 @@
         <div class="text-white">Bug Seeker</div>
 
         <div class="nav-right" v-if="!isPreview && !isTest">
+            <div v-if="isTeacher" class="nav__btn" @click="openTestModal">Створити тест</div>   
             <router-link :to="{name: 'Dashboard'}" class="nav__btn">
                 Панель керування
             </router-link>
@@ -39,6 +40,9 @@ export default {
         isTest: false
     }),
     computed: {
+        isTeacher() {
+            return this.$store.getters.isTeacher;
+        },
         user() {
             return this.$store.state.currentUser
         },
@@ -67,6 +71,9 @@ export default {
         logout() {
             this.$store.commit('LOG_OUT')
             this.$router.push({name: 'SignIn'})
+        },
+        openTestModal() {
+            this.$store.commit('TOGGLE_TEST_MODAL')
         }
     }
 }
